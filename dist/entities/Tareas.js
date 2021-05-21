@@ -24,42 +24,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 exports.__esModule = true;
-exports.User = void 0;
+exports.Tareas = void 0;
 var typeorm_1 = require("typeorm");
-var Planet_1 = require("./Planet");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User() {
+var Users_1 = require("./Users");
+var Tareas = /** @class */ (function (_super) {
+    __extends(Tareas, _super);
+    function Tareas() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], User.prototype, "id");
+    ], Tareas.prototype, "id");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], User.prototype, "first_name");
+    ], Tareas.prototype, "name");
     __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "last_name");
-    __decorate([
-        typeorm_1.Column({ unique: true }),
-        __metadata("design:type", String)
-    ], User.prototype, "email");
-    __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], User.prototype, "password");
-    __decorate([
-        typeorm_1.ManyToMany(function () { return Planet_1.Planet; }),
-        typeorm_1.JoinTable(),
-        __metadata("design:type", Array)
-    ], User.prototype, "planets");
-    User = __decorate([
+        typeorm_1.ManyToOne(function () { return Users_1.Users; }, function (Users) { return Users.tareas; }),
+        __metadata("design:type", Object)
+    ], Tareas.prototype, "users");
+    Tareas = __decorate([
         typeorm_1.Entity()
-    ], User);
-    return User;
+    ], Tareas);
+    return Tareas;
 }(typeorm_1.BaseEntity));
-exports.User = User;
+exports.Tareas = Tareas;

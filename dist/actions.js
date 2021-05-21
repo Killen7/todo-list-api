@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUsers = exports.createUser = void 0;
+exports.deleteTarea = exports.putTarea = exports.getTarea = exports.createTarea = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var utils_1 = require("./utils");
+var Tareas_1 = require("./entities/Tareas");
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userRepo, user, newUser, results;
     return __generator(this, function (_a) {
@@ -81,3 +82,68 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 exports.getUsers = getUsers;
+var createTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepo, user, tarea, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                if (!req.body.name)
+                    throw new utils_1.Exception("Please provide a name");
+                userRepo = typeorm_1.getRepository(Users_1.Users);
+                return [4 /*yield*/, userRepo.findOne(req.params.userId)];
+            case 1:
+                user = _a.sent();
+                if (!user)
+                    throw new utils_1.Exception("User not exist");
+                tarea = new Tareas_1.Tareas();
+                tarea.name = req.body.name;
+                tarea.users = user.id;
+                return [4 /*yield*/, typeorm_1.getRepository(Tareas_1.Tareas).save(tarea)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); };
+exports.createTarea = createTarea;
+var getTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var tareasRepo, tareas;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                tareasRepo = typeorm_1.getRepository(Tareas_1.Tareas);
+                return [4 /*yield*/, tareasRepo.find({ where: { users: req.params.userId } })];
+            case 1:
+                tareas = _a.sent();
+                return [2 /*return*/, res.json(tareas)];
+        }
+    });
+}); };
+exports.getTarea = getTarea;
+var putTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var tareas;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Tareas_1.Tareas).findOne({ where: { users: req.params.userId } })];
+            case 1:
+                tareas = _a.sent();
+                return [2 /*return*/, res.json(tareas)];
+        }
+    });
+}); };
+exports.putTarea = putTarea;
+var deleteTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var tareasRepo, tareas;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                tareasRepo = typeorm_1.getRepository(Tareas_1.Tareas);
+                return [4 /*yield*/, tareasRepo.find({ where: { users: !req.params.userId } })];
+            case 1:
+                tareas = _a.sent();
+                return [2 /*return*/, res.json(tareas)];
+        }
+    });
+}); };
+exports.deleteTarea = deleteTarea;

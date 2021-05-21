@@ -26,6 +26,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 exports.__esModule = true;
 exports.Users = void 0;
 var typeorm_1 = require("typeorm");
+var Tareas_1 = require("./Tareas");
 var Users = /** @class */ (function (_super) {
     __extends(Users, _super);
     function Users() {
@@ -51,6 +52,10 @@ var Users = /** @class */ (function (_super) {
         typeorm_1.Column(),
         __metadata("design:type", String)
     ], Users.prototype, "password");
+    __decorate([
+        typeorm_1.OneToMany(function () { return Tareas_1.Tareas; }, function (Tareas) { return Tareas.users; }),
+        __metadata("design:type", Array)
+    ], Users.prototype, "tareas");
     Users = __decorate([
         typeorm_1.Entity()
     ], Users);

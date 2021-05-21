@@ -18,6 +18,8 @@ import * as actions from './actions';
 // declare a new router to include all the endpoints
 const router = Router();
 
-router.get('/user', safe(actions.getUsers));
+router.get('/todos/user/:userId', safe(actions.getTarea));
+router.post('/todos/user/:userId', safe(actions.createTarea));
+router.put('/todos/user/:userId', safe(actions.putTarea));
 
 export default router;
