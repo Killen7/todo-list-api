@@ -21,5 +21,7 @@ const router = Router();
 router.get('/todos/user/:userId', safe(actions.getTarea));
 router.post('/todos/user/:userId', safe(actions.createTarea));
 router.put('/todos/user/:userId', safe(actions.putTarea));
+/* router.delete('/todos/user/:userId', safe(actions.deleteTarea)); */
+router.delete('/user/:userId', safe(actions.deleteTarea));
 
 export default router;

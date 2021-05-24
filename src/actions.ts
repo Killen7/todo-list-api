@@ -51,12 +51,29 @@ export const getTarea = async (req: Request, res: Response): Promise<Response> =
 }
 
 export const putTarea = async (req: Request, res: Response): Promise<Response> => {
-    const tareas = await getRepository(Tareas).findOne({ where: { users: req.params.userId } });
-    return res.json(tareas);
+    const tareasRepo = getRepository(Tareas)
+    const tarea  = parseInt(req.params.userId)
+    const todo = await tareasRepo.delete({users: tarea});
+    if (todo.affected)
+        return res.json({"message":"Tareas eliminadas correctamente"});
+    else
+        return res.json({"message":"No se ha eliminado"})
 }
 
-export const deleteTarea = async (req: Request, res: Response): Promise<Response> => {
+
+    export const deleteTarea = async (req: Request, res:Response): Promise<Response> =>{
+
+    // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+    
     const tareasRepo = getRepository(Tareas)
-    const tareas = await tareasRepo.find({ where: { users: !req.params.userId } });
-    return res.json(tareas);
+    // fetch for any user with this email
+    //const userfull = userRepo.find({ relations: ["todos"]});
+    const id  = parseInt(req.params.userId)
+    const todo = await tareasRepo.delete({users: id});
+    const usersRepo = getRepository(Users)
+    const usuario = await usersRepo.delete(id);
+    if (todo.affected || usuario.affected)
+        return res.json({"message":"Eliminado correctamente"});
+    else
+        return res.json({"message":"No se ha eliminado"})
 }

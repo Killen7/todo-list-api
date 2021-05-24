@@ -39,4 +39,6 @@ var router = express_1.Router();
 router.get('/todos/user/:userId', utils_1.safe(actions.getTarea));
 router.post('/todos/user/:userId', utils_1.safe(actions.createTarea));
 router.put('/todos/user/:userId', utils_1.safe(actions.putTarea));
+/* router.delete('/todos/user/:userId', safe(actions.deleteTarea)); */
+router["delete"]('/user/:userId', utils_1.safe(actions.deleteTarea));
 exports["default"] = router;

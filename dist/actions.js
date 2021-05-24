@@ -122,27 +122,43 @@ var getTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.getTarea = getTarea;
 var putTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tareas;
+    var tareasRepo, tarea, todo;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Tareas_1.Tareas).findOne({ where: { users: req.params.userId } })];
+            case 0:
+                tareasRepo = typeorm_1.getRepository(Tareas_1.Tareas);
+                tarea = parseInt(req.params.userId);
+                return [4 /*yield*/, tareasRepo["delete"]({ users: tarea })];
             case 1:
-                tareas = _a.sent();
-                return [2 /*return*/, res.json(tareas)];
+                todo = _a.sent();
+                if (todo.affected)
+                    return [2 /*return*/, res.json({ "message": "Tareas eliminadas correctamente" })];
+                else
+                    return [2 /*return*/, res.json({ "message": "No se ha eliminado" })];
+                return [2 /*return*/];
         }
     });
 }); };
 exports.putTarea = putTarea;
 var deleteTarea = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var tareasRepo, tareas;
+    var tareasRepo, id, todo, usersRepo, usuario;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 tareasRepo = typeorm_1.getRepository(Tareas_1.Tareas);
-                return [4 /*yield*/, tareasRepo.find({ where: { users: !req.params.userId } })];
+                id = parseInt(req.params.userId);
+                return [4 /*yield*/, tareasRepo["delete"]({ users: id })];
             case 1:
-                tareas = _a.sent();
-                return [2 /*return*/, res.json(tareas)];
+                todo = _a.sent();
+                usersRepo = typeorm_1.getRepository(Users_1.Users);
+                return [4 /*yield*/, usersRepo["delete"](id)];
+            case 2:
+                usuario = _a.sent();
+                if (todo.affected || usuario.affected)
+                    return [2 /*return*/, res.json({ "message": "Eliminado correctamente" })];
+                else
+                    return [2 /*return*/, res.json({ "message": "No se ha eliminado" })];
+                return [2 /*return*/];
         }
     });
 }); };
